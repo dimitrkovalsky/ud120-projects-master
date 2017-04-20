@@ -16,6 +16,7 @@ from time import time
 sys.path.append("../tools/")
 from email_preprocess import preprocess
 from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
 
 ### features_train and features_test are the features for the training
 ### and testing datasets, respectively
@@ -25,16 +26,8 @@ features_train, features_test, labels_train, labels_test = preprocess()
 model = GaussianNB()
 model.fit(features_train, labels_train)
 
-errors = 0
-for i in range(len(features_test)):
-    predicted = model.predict(features_test[i].reshape(1, -1))
-    if predicted != labels_test[i]:
-        errors += 1
-    print("Available : {}, expected : {}".format(predicted, labels_test[i]))
+predicted = model.predict(features_test)
 
-print("Examples : {} Errors : {}, percents {}".format(len(labels_test), errors, 1 - (errors / len(labels_test))))
-#########################################################
-### your code goes here ###
+print(accuracy_score(predicted, labels_test))
 
-
-#########################################################
+#0.973265073948
